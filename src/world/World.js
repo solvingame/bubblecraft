@@ -21,9 +21,12 @@ class World {
         }
     }
 
+    getChunk(x, y) {
+        return this.chunkManager.getChunk(parseInt(x / CHUNK_SIZE) * CHUNK_SIZE).getChunk(parseInt(y / CHUNK_SIZE))
+    }
+
     getBlock(x, y) {
-        var block = this.chunkManager.getChunk(x).getBlock(x % CHUNK_SIZE, y)
-        return block
+        return this.chunkManager.getChunk(parseInt(x / CHUNK_SIZE) * CHUNK_SIZE).getBlock(x % CHUNK_SIZE, y)
     }
 
     loadChunks(camera) {

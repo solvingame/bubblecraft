@@ -8,10 +8,11 @@ class Mesh {
     add(blocks) {
         var l = this.data.length
         var pixels = []
-        for (var iBlock in blocks) {
-            var block = blocks[iBlock]
-            var pixelBlock = new Array(BLOCK_SIZE * BLOCK_SIZE).fill(block.type)
-            pixels = pixels.concat(pixelBlock)
+        for(var col = 0; col < CHUNK_SIZE; col ++){
+            for(var row = 0; row < CHUNK_SIZE; row ++){
+                var block = blocks[parseInt(col/BLOCK_SIZE) + parseInt(row/BLOCK_SIZE) * CHUNK_SIZE_BLOCK]
+                pixels[col + row * CHUNK_SIZE] = block.type
+            }
         }
         for (var i = 0; i < l; i += 4) {
             var pixel = pixels[i / 4]
@@ -29,12 +30,13 @@ class Mesh {
             } else if (pixel == BlockType.Bubble) {
                 rgb = [233, 30, 99]
             } else {
-                rgb = [221, 221, 221]
+                rgb = [221, 221, 221, 0]
             }
+            var alpha = rgb[3] != undefined ? rgb[3] : 255
             this.data[i] = rgb[0]
             this.data[i + 1] = rgb[1]
             this.data[i + 2] = rgb[2]
-            this.data[i + 3] = 255
+            this.data[i + 3] = alpha
         }
     }
 }

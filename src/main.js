@@ -1,4 +1,5 @@
 const rootCanvas = document.getElementById('root')
+const skyCanvas = document.getElementById('sky')
 const context = rootCanvas.getContext('2d')
 const title = 'Bubblecraft'
 

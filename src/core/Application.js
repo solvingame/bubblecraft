@@ -3,44 +3,27 @@ class Application {
         this.title = title
         this.renderer = renderer
         this.camera = camera
+        this.window = new Window()
         this.world = new World(noiseGenerator)
-        this.player = new Player({x: 50000, y: 300})
+        this.player = new Player({x: 50000, y: 1000})
         this.startTime = Date.now()
         this.nbFrame = 0
         this.runLoop = this.runLoop.bind(this)
     }
 
     loadEvents(){
-        document.addEventListener('keydown', (event) => {
-            const key = event.keyCode
-            //up
-            if(key === 38){
-                this.player.move(0, 1)
-            }
-            //down
-            else if(key === 40){
-                this.player.move(0, -1)
-            }
-            //right
-            else if(key === 39){
-                this.player.move(1, 0)
-            }
-            //left
-            else if(key === 37){
-                this.player.move(-1, 0)
-            }
-        })
+        this.window.initEvents()
     }
 
     runLoop() {
         this.updateFPS()
         this.camera.update(this.player.position)
-        this.renderer.clear()
         this.world.loadChunks(this.camera)
         this.world.draw(this.renderer, this.camera)
-        this.player.update()
+        this.player.update(this.world)
         this.player.draw(this.renderer)
         this.renderer.render(this.camera)
+        this.player.handleInput(this.window)
         requestAnimationFrame(this.runLoop)
     }
 

@@ -27,7 +27,7 @@ class SuperChunk{
 
     getChunk(index){
         if(index >= this.chunks.length || index < 0){
-            throw 'Chunk out of range'
+            return null
         }
         return this.chunks[index]
     }
@@ -59,8 +59,8 @@ class SuperChunk{
     outOfBounds(x, y){
         if(
             x >= CHUNK_SIZE ||
-            x <= 0 ||
-            y <= 0 ||
+            x < 0 ||
+            y < 0 ||
             y >= this.chunks.length * CHUNK_SIZE
         ){
             return true
