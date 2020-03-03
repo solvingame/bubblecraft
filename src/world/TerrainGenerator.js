@@ -16,28 +16,32 @@ class TerrainGenerator {
         const heightMap = this.getHeightMap()
         for (var iBlock = 0; iBlock < CHUNK_SIZE_BLOCK; iBlock++) {
             var x = iBlock * BLOCK_SIZE
-            var height = parseInt(heightMap[x][0]/BLOCK_SIZE)*BLOCK_SIZE
+            var height = parseInt(heightMap[x][0] / BLOCK_SIZE) * BLOCK_SIZE
             var h = Math.max(WATER_LEVEL, height)
-            for(var y = 0; y <= h; y += BLOCK_SIZE){
-                if(y <= height){
-                    if(y == height){
-                        if(y >= WATER_LEVEL){
-                            if(y < WATER_LEVEL + 20){
+            for (var y = 0; y <= h; y += BLOCK_SIZE) {
+                if (y <= height) {
+                    if (y == height) {
+                        if (y >= WATER_LEVEL) {
+                            if (y < WATER_LEVEL + CHUNK_SIZE * 2) {
                                 chunk.setBlock(x, y, BlockType.Sand)
-                            }else{
+                            } else {
                                 chunk.setBlock(x, y, BlockType.Grass)
                             }
-                        }else{
+                        } else {
                             //under water
                             chunk.setBlock(x, y, BlockType.Water)
                         }
-                    }else{
-                        chunk.setBlock(x, y, BlockType.Dirt)
+                    } else {
+                        if (Random.intInRange(0, 400) > Math.max(400 - y, 10)) {
+                            chunk.setBlock(x, y, BlockType.Dirt)
+                        }else{
+                            chunk.setBlock(x, y, BlockType.Stone)
+                        }
                     }
-                }else{
-                    if(y <= WATER_LEVEL){
+                } else {
+                    if (y <= WATER_LEVEL) {
                         chunk.setBlock(x, y, BlockType.Water)
-                    }else{
+                    } else {
                         chunk.setBlock(x, y, BlockType.Air)
                     }
                 }

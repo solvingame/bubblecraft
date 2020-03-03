@@ -8,8 +8,8 @@ class Renderer{
         this.chunkRenderer.add(object.mesh)
     }
     
-    render(camera){
-        this.skyRenderer.render(camera)
+    render(camera, appTime){
+        this.skyRenderer.render(camera, appTime)
         this.chunkRenderer.render(camera)
     }
 }

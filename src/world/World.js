@@ -3,6 +3,7 @@ class World {
         this.chunkManager = new ChunkManager(noiseGenerator, this)
         this.renderDistance = 20
         this.loadDistance = 2
+        this.updateChunks = []
     }
 
     draw(renderer, camera) {
@@ -27,6 +28,29 @@ class World {
 
     getBlock(x, y) {
         return this.chunkManager.getChunk(parseInt(x / CHUNK_SIZE) * CHUNK_SIZE).getBlock(x % CHUNK_SIZE, y)
+    }
+
+    setBlock(x, y, type) {
+        if(y >= 0){
+            this.chunkManager.getChunk(parseInt(x / CHUNK_SIZE) * CHUNK_SIZE).setBlock(x % CHUNK_SIZE, y, type)
+        }
+    }
+
+    mine(x, y) {
+        if(y >= 0){
+            this.getChunk(x, y).mine(x % CHUNK_SIZE, parseInt(y / CHUNK_SIZE))
+        }
+    }
+
+    update(){
+        for(var iUpdateChunk in this.updateChunks){
+            this.updateChunks[iUpdateChunk].addToBuffer()
+        }
+        this.updateChunks = []
+    }
+
+    updateChunk(x, y){
+        this.updateChunks.push(this.getChunk(x, y))
     }
 
     loadChunks(camera) {

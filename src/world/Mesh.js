@@ -5,7 +5,7 @@ class Mesh {
         this.data = this.imgData.data
     }
 
-    add(blocks) {
+    add(blocks, mineLevel) {
         var l = this.data.length
         var pixels = []
         for(var col = 0; col < CHUNK_SIZE; col ++){
@@ -27,16 +27,33 @@ class Mesh {
                 rgb = [74, 48, 39]
             } else if (pixel == BlockType.Snow) {
                 rgb = [249, 249, 249]
+            } else if (pixel == BlockType.Stone) {
+                rgb = [101, 119, 127]
             } else if (pixel == BlockType.Bubble) {
                 rgb = [233, 30, 99]
             } else {
-                rgb = [221, 221, 221, 0]
+                rgb = [0, 0, 0, 100]
             }
-            var alpha = rgb[3] != undefined ? rgb[3] : 255
+            const alpha = rgb[3] != undefined ? rgb[3] : 255
             this.data[i] = rgb[0]
             this.data[i + 1] = rgb[1]
             this.data[i + 2] = rgb[2]
-            this.data[i + 3] = alpha
+            this.data[i + 3] = this.generateAlpha(pixel, alpha, mineLevel)
         }
+    }
+
+    generateAlpha(pixel, alpha, mineLevel){
+        const rand = Math.random()
+        var newAlpha = alpha
+        if(rand <= mineLevel){
+            newAlpha = 0
+        }else{
+            if(pixel != BlockType.Bubble && pixel != BlockType.Water){
+                const minValue = 230
+                const maxValue = 255
+                newAlpha = minValue + rand * (maxValue - minValue)
+            }
+        }
+        return newAlpha
     }
 }

@@ -4,6 +4,7 @@ class ChunkRenderer{
     }
 
     render(camera){
+        context.globalAlpha = 0.5
         for(var iMesh in this.meshes){
             const mesh = this.meshes[iMesh]
             const cameraViewX = camera.position.x - WINDOW_WIDTH / 2
@@ -13,6 +14,7 @@ class ChunkRenderer{
             context.putImageData(mesh.imgData, meshX, meshY)
         }
         this.meshes = []
+        context.globalAlpha = 1.0
     }
 
     add(mesh){

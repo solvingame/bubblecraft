@@ -7,6 +7,16 @@ class Chunk {
         this.isBuffered = false
         this.position = position
         this.world = world
+        this.mineLevel = 0
+    }
+
+    mine(x, y){
+        const block = this.getBlock(x, y)
+        this.mineLevel += BlockProps[block.type].mineLevelStep
+        if(this.mineLevel >= 1){
+            this.setBlock(x, y, BlockType.Air)
+            this.mineLevel = 0
+        }
     }
 
     setBlock(x, y, type) {
@@ -43,11 +53,8 @@ class Chunk {
     }
 
     addToBuffer() {
-        if (!this.isBuffered) {
-            this.mesh.add(this.blocks)
-            this.isBuffered = true
-            return true
-        }
-        return false
+        this.mesh.add(this.blocks, this.mineLevel)
+        this.isBuffered = true
+        return true
     }
 }
