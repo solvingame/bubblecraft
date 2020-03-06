@@ -5,14 +5,15 @@ class TerrainGenerator {
         this.configs = {
             octaves: 7,
             amplitude: 600,
-            persistance: 0.50,
-            smoothness: 100
+            persistance: 0.4,
+            smoothness: 500
         }
         this.noiseGenerator.setConfigs(this.configs)
     }
 
     generate(chunk) {
         this.chunk = chunk
+        var trees = []
         const heightMap = this.getHeightMap()
         for (var iBlock = 0; iBlock < CHUNK_SIZE_BLOCK; iBlock++) {
             var x = iBlock * BLOCK_SIZE
@@ -24,15 +25,18 @@ class TerrainGenerator {
                         if (y >= WATER_LEVEL) {
                             if (y < WATER_LEVEL + CHUNK_SIZE * 2) {
                                 chunk.setBlock(x, y, BlockType.Sand)
-                            } else {
-                                chunk.setBlock(x, y, BlockType.Grass)
+                                continue
                             }
+                            if(Random.get(chunk.position.x + x + y).intInRange(0, 300) === 2){
+                                trees.push({x, y})
+                            }
+                            chunk.setBlock(x, y, BlockType.Grass)
                         } else {
                             //under water
                             chunk.setBlock(x, y, BlockType.Water)
                         }
                     } else {
-                        if (Random.intInRange(0, 400) > Math.max(400 - y, 10)) {
+                        if (Random.get(chunk.position.x + x + y).intInRange(0, 400) > Math.max(400 - y, 10)) {
                             chunk.setBlock(x, y, BlockType.Dirt)
                         }else{
                             chunk.setBlock(x, y, BlockType.Stone)
@@ -46,6 +50,9 @@ class TerrainGenerator {
                     }
                 }
             }
+        }
+        for(var iTree in trees){
+            Tree.generateOak(chunk, trees[iTree])
         }
     }
 

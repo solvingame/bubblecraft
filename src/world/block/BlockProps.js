@@ -23,6 +23,14 @@ const BlockProps = {
         isCollidable: 1,
         mineLevelStep: 0.01
     },
+    [BlockType.Wood]: {
+        isCollidable: 1,
+        mineLevelStep: 0.02
+    },
+    [BlockType.Leaf]: {
+        isCollidable: 1,
+        mineLevelStep: 0.1
+    },
     [BlockType.Bubble]: {
         isCollidable: 1,
         mineLevelStep: 0

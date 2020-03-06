@@ -6,7 +6,9 @@ const BlockType = {
     Dirt: 4,
     Snow: 5,
     Stone: 6,
-    Bubble: 7
+    Wood: 7,
+    Leaf: 8,
+    Bubble: 9
 }
 
 class Block{

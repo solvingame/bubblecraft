@@ -3,6 +3,7 @@ class Mesh {
         this.position = position
         this.imgData = context.createImageData(CHUNK_SIZE, CHUNK_SIZE)
         this.data = this.imgData.data
+        this.toDraw = true //temproraly solution
     }
 
     add(blocks, mineLevel) {
@@ -24,15 +25,20 @@ class Mesh {
             } else if (pixel == BlockType.Sand) {
                 rgb = [255, 193, 7]
             } else if (pixel == BlockType.Dirt) {
-                rgb = [74, 48, 39]
+                rgb = [93, 60, 4]
             } else if (pixel == BlockType.Snow) {
                 rgb = [249, 249, 249]
             } else if (pixel == BlockType.Stone) {
                 rgb = [101, 119, 127]
+            } else if (pixel == BlockType.Wood) {
+                rgb = [74, 48, 39]
+            } else if (pixel == BlockType.Leaf) {
+                rgb = [18, 74, 8]
             } else if (pixel == BlockType.Bubble) {
                 rgb = [233, 30, 99]
             } else {
                 rgb = [0, 0, 0, 100]
+                this.toDraw = false
             }
             const alpha = rgb[3] != undefined ? rgb[3] : 255
             this.data[i] = rgb[0]
