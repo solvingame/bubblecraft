@@ -1,7 +1,7 @@
 class World {
     constructor(noiseGenerator) {
         this.chunkManager = new ChunkManager(noiseGenerator, this)
-        this.renderDistance = 20
+        this.renderDistance = RENDER_DISTANCE
         this.loadDistance = 2
         this.updateChunks = []
     }

@@ -1,18 +1,20 @@
 class Mesh {
-    constructor(position) {
+    constructor(position, size = CHUNK_SIZE) {
+        this.size = size
         this.position = position
-        this.imgData = context.createImageData(CHUNK_SIZE, CHUNK_SIZE)
+        this.imgData = context.createImageData(this.size, this.size)
         this.data = this.imgData.data
-        this.toDraw = true //temproraly solution
     }
 
     add(blocks, mineLevel) {
         var l = this.data.length
         var pixels = []
-        for(var col = 0; col < CHUNK_SIZE; col ++){
-            for(var row = 0; row < CHUNK_SIZE; row ++){
-                var block = blocks[parseInt(col/BLOCK_SIZE) + parseInt(row/BLOCK_SIZE) * CHUNK_SIZE_BLOCK]
-                pixels[col + row * CHUNK_SIZE] = block.type
+        for(var col = 0; col < this.size; col ++){
+            for(var row = 0; row < this.size; row ++){
+                const relCol = col
+                const relRow = this.size - row - 1
+                var block = blocks[parseInt(col/BLOCK_SIZE) + parseInt(row/BLOCK_SIZE) * this.size / BLOCK_SIZE]
+                pixels[relCol + relRow * this.size] = block.type
             }
         }
         for (var i = 0; i < l; i += 4) {
@@ -37,8 +39,7 @@ class Mesh {
             } else if (pixel == BlockType.Bubble) {
                 rgb = [233, 30, 99]
             } else {
-                rgb = [0, 0, 0, 100]
-                this.toDraw = false
+                rgb = [0, 0, 0, 0]
             }
             const alpha = rgb[3] != undefined ? rgb[3] : 255
             this.data[i] = rgb[0]

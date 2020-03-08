@@ -2,9 +2,10 @@ class Player {
     constructor(position) {
         this.position = position
         this.isBuffered = false
-        this.blocks = new Array(CHUNK_SIZE_BLOCK * CHUNK_SIZE_BLOCK)
+        this.size = BLOCK_SIZE
+        this.blocks = new Array(Math.pow(this.size/BLOCK_SIZE, 2))
         this.blocks.fill(new Block(BlockType.Bubble))
-        this.mesh = new Mesh(position)
+        this.mesh = new Mesh(position, this.size)
         this.acceleration = { x: 0, y: 0 }
         this.velocity = { x: 0, y: 0 }
         this.isOnGround = false
@@ -88,13 +89,13 @@ class Player {
         if (direction) {
             var { x, y } = this.position
             if (direction === 1) {
-                y += CHUNK_SIZE
+                y += BLOCK_SIZE
             } else if (direction === 2) {
                 y -= BLOCK_SIZE
             } else if (direction === 4) {
                 x -= BLOCK_SIZE
             } else if (direction === 8) {
-                x += CHUNK_SIZE
+                x += BLOCK_SIZE
             }
             var block = world.getBlock(x, y)
             if(block && block.type != BlockType.Air && BlockProps[block.type].isCollidable){
@@ -111,13 +112,14 @@ class Player {
     }
 
     collide(world, velocity) {
-        var dimensions = { x: CHUNK_SIZE - 1, y: 0 }
+        var dimensions = { x: this.size, y: this.size }
         var newPosition = { x: this.position.x, y: this.position.y }
         newPosition.x += velocity.x
         newPosition.y += velocity.y
-        for (var x = newPosition.x; x <= newPosition.x + dimensions.x; x++) {
-            for (var y = newPosition.y - parseInt(dimensions.y / 2); y < newPosition.y + CHUNK_SIZE; y++) {
-                var block = world.getBlock(x, y)
+        for (var x = newPosition.x; x < newPosition.x + dimensions.x; x++) {
+            for (var y = newPosition.y; y < newPosition.y + dimensions.y; y++) {
+                const relY = y + BLOCK_SIZE * (CHUNK_SIZE/this.size - 1)
+                var block = world.getBlock(x, relY)
                 if (block && block.type != BlockType.Air) {
                     if (BlockProps[block.type].isCollidable) {
                         if (velocity.y > 0) {

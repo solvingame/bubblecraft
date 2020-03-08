@@ -25,10 +25,8 @@ class Chunk {
         }else{
             var relX = parseInt(x / BLOCK_SIZE)
             var relY = parseInt(y / BLOCK_SIZE)
-            if (!this.blocks[relY * CHUNK_SIZE_BLOCK + relX]) {
-                this.blocks[relY * CHUNK_SIZE_BLOCK + relX] = new Block()
-            }
-            this.blocks[relY * CHUNK_SIZE_BLOCK + relX].type = type
+            Log.debug(`chunk set block ${relX},${relY}. bindex = ${relY * CHUNK_SIZE_BLOCK + relX}`)
+            this.blocks[relY * CHUNK_SIZE_BLOCK + relX] = new Block(type)
         }
     }
 
@@ -39,7 +37,7 @@ class Chunk {
         }
         var relX = parseInt(x / BLOCK_SIZE)
         var relY = parseInt(y / BLOCK_SIZE)
-        return this.blocks[relY * BLOCK_SIZE + relX]
+        return this.blocks[relY * CHUNK_SIZE_BLOCK + relX]
     }
 
     outOfBounds(x, y){

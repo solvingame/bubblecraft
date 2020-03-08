@@ -19,33 +19,41 @@ class TerrainGenerator {
             var x = iBlock * BLOCK_SIZE
             var height = parseInt(heightMap[x][0] / BLOCK_SIZE) * BLOCK_SIZE
             var h = Math.max(WATER_LEVEL, height)
+            Log.debug(`chunk ${chunk.position.x + x} (${x}) - height = ${height}`)
             for (var y = 0; y <= h; y += BLOCK_SIZE) {
                 if (y <= height) {
                     if (y == height) {
                         if (y >= WATER_LEVEL) {
-                            if (y < WATER_LEVEL + CHUNK_SIZE * 2) {
+                            if (y < WATER_LEVEL + BLOCK_SIZE * 2) {
+                                Log.debug(`Sand`)
                                 chunk.setBlock(x, y, BlockType.Sand)
                                 continue
                             }
-                            if(Random.get(chunk.position.x + x + y).intInRange(0, 300) === 2){
+                            if(Random.get(chunk.position.x + x + y).intInRange(0, 100) > 90){
                                 trees.push({x, y})
                             }
+                            Log.debug(`Grass`)
                             chunk.setBlock(x, y, BlockType.Grass)
                         } else {
                             //under water
+                            Log.debug(`Water`)
                             chunk.setBlock(x, y, BlockType.Water)
                         }
                     } else {
-                        if (Random.get(chunk.position.x + x + y).intInRange(0, 400) > Math.max(400 - y, 10)) {
+                        if (Random.get(chunk.position.x + x * y).intInRange(0, 400) > Math.max(400 - y, 10)) {
+                            Log.debug(`Dirt`)
                             chunk.setBlock(x, y, BlockType.Dirt)
                         }else{
+                            Log.debug(`Stone`)
                             chunk.setBlock(x, y, BlockType.Stone)
                         }
                     }
                 } else {
                     if (y <= WATER_LEVEL) {
+                        Log.debug(`Water`)
                         chunk.setBlock(x, y, BlockType.Water)
                     } else {
+                        Log.debug(`Air`)
                         chunk.setBlock(x, y, BlockType.Air)
                     }
                 }
@@ -57,7 +65,7 @@ class TerrainGenerator {
     }
 
     getHeightAt(x, z) {
-        const h = this.noiseGenerator.perlinNoise(this.chunk.position.x + x, 0)
+        const h = this.noiseGenerator.perlinNoise(this.chunk.position.x + x, z)
         return h
     }
 
@@ -68,8 +76,6 @@ class TerrainGenerator {
         const topRight = this.getHeightAt(xMax, zMax)
         for (var x = xMin; x < xMax; x++) {
             for (var z = zMin; z < zMax; z++) {
-                if (x === CHUNK_SIZE) continue
-                if (z === CHUNK_SIZE) continue
 
                 var h = Maths.smoothInterpolation(bottomLeft, topLeft, bottomRight, topRight, xMin, xMax, zMin, zMax, x, z)
                 if (!heights[x]) {
