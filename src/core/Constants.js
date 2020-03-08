@@ -8,10 +8,10 @@ const LOG = false
 const RENDER_DISTANCE = 10
 
 const CONTROLS = {
-    UP: 38,
-    BOTTOM: 40,
-    RIGHT: 39,
-    LEFT: 37,
+    UP: 90,
+    BOTTOM: 83,
+    RIGHT: 68,
+    LEFT: 81,
     JUMP: 32,
     MINE: 17
 }

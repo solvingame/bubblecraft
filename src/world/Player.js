@@ -3,7 +3,7 @@ class Player {
         this.position = position
         this.isBuffered = false
         this.size = BLOCK_SIZE
-        this.blocks = new Array(Math.pow(this.size/BLOCK_SIZE, 2))
+        this.blocks = new Array(Math.pow(this.size / BLOCK_SIZE, 2))
         this.blocks.fill(new Block(BlockType.Bubble))
         this.mesh = new Mesh(position, this.size)
         this.acceleration = { x: 0, y: 0 }
@@ -51,8 +51,9 @@ class Player {
         }
     }
 
-    handleInput(window, world) {
+    handleInput(window, world, camera) {
         var keyboard = window.keyboard
+        var mouse = window.mouse
 
         if (keyboard.isKeyPressed(CONTROLS.UP)) {
             if (this.isUnderWater) {
@@ -73,8 +74,8 @@ class Player {
         if (keyboard.isKeyPressed(CONTROLS.JUMP)) {
             this.jump()
         }
-        if (keyboard.isKeyPressed(CONTROLS.MINE)) {
-            this.mine(this.getDirection(keyboard), world)
+        if (mouse.isButtonPressed(MouseButton.LEFT)) {
+            this.mine(mouse.position, world, camera)
         }
     }
 
@@ -85,22 +86,14 @@ class Player {
             keyboard.isKeyPressed(CONTROLS.RIGHT) << 3
     }
 
-    mine(direction, world) {
-        if (direction) {
-            var { x, y } = this.position
-            if (direction === 1) {
-                y += BLOCK_SIZE
-            } else if (direction === 2) {
-                y -= BLOCK_SIZE
-            } else if (direction === 4) {
-                x -= BLOCK_SIZE
-            } else if (direction === 8) {
-                x += BLOCK_SIZE
-            }
-            var block = world.getBlock(x, y)
-            if(block && block.type != BlockType.Air && BlockProps[block.type].isCollidable){
-                world.mine(x, y)
-                world.updateChunk(x, y)
+    mine(position, world, camera) {
+        if (position) {
+            const { x, y } = camera.fromCanvasCoord(position)
+            var relY = y + BLOCK_SIZE * (CHUNK_SIZE / this.size)
+            var block = world.getBlock(x, relY)
+            if (block && block.type != BlockType.Air && BlockProps[block.type].isCollidable) {
+                world.mine(x, relY)
+                world.updateChunk(x, relY)
             }
         }
     }
@@ -118,7 +111,7 @@ class Player {
         newPosition.y += velocity.y
         for (var x = newPosition.x; x < newPosition.x + dimensions.x; x++) {
             for (var y = newPosition.y; y < newPosition.y + dimensions.y; y++) {
-                const relY = y + BLOCK_SIZE * (CHUNK_SIZE/this.size - 1)
+                const relY = y + BLOCK_SIZE * (CHUNK_SIZE / this.size - 1)
                 var block = world.getBlock(x, relY)
                 if (block && block.type != BlockType.Air) {
                     if (BlockProps[block.type].isCollidable) {

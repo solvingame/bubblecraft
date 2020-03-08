@@ -1,6 +1,6 @@
 class SkyRenderer{
     render(camera, appTime){
-        var skyGradient = context.createLinearGradient(0, 0, 0, WINDOW_HEIGHT)
+        var skyGradient = contextSky.createLinearGradient(0, 0, 0, WINDOW_HEIGHT)
         appTime *= 2
         
         var skyColorTop = [167, 228, 255]
@@ -19,7 +19,7 @@ class SkyRenderer{
         skyGradient.addColorStop(0, `rgb(${skyColorTop.join(',')})`)
         skyGradient.addColorStop(1, `rgb(${skyColorBottom.join(',')})`)
         
-        context.fillStyle = skyGradient
-        context.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT)
+        contextSky.fillStyle = skyGradient
+        contextSky.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT)
     }
 }

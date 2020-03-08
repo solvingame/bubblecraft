@@ -18,6 +18,13 @@ class SuperChunk{
         this.chunks[index].setBlock(x, y % CHUNK_SIZE, type)
     }
 
+    mine(x, y){
+        if(this.outOfBounds(x, y)){
+            throw 'Block out of range'
+        }
+        this.chunks[parseInt(y / CHUNK_SIZE)].mine(x, y % CHUNK_SIZE)
+    }
+
     getBlock(x, y){
         if(this.outOfBounds(x, y)){
             return new Block()

@@ -12,7 +12,8 @@ const BlockType = {
 }
 
 class Block{
-    constructor(type = BlockType.Air){
+    constructor(type = BlockType.Air, mineLevel = 0){
         this.type = type
+        this.mineLevel = mineLevel
     }
 }

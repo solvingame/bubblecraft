@@ -38,7 +38,7 @@ class World {
 
     mine(x, y) {
         if(y >= 0){
-            this.getChunk(x, y).mine(x % CHUNK_SIZE, parseInt(y / CHUNK_SIZE))
+            this.chunkManager.getChunk(parseInt(x / CHUNK_SIZE) * CHUNK_SIZE).mine(x % CHUNK_SIZE, y)
         }
     }
 

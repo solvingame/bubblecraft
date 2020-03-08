@@ -27,8 +27,9 @@ class Application {
         this.world.draw(this.renderer, this.camera)
         this.player.update(this.world)
         this.player.draw(this.renderer)
+        this.renderer.clear()
         this.renderer.render(this.camera, this.appTime)
-        this.player.handleInput(this.window, this.world)
+        this.player.handleInput(this.window, this.world, this.camera)
         requestAnimationFrame(this.runLoop)
     }
 

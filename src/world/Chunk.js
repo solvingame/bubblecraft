@@ -7,26 +7,28 @@ class Chunk {
         this.isBuffered = false
         this.position = position
         this.world = world
-        this.mineLevel = 0
     }
 
     mine(x, y){
         const block = this.getBlock(x, y)
-        this.mineLevel += BlockProps[block.type].mineLevelStep
-        if(this.mineLevel >= 1){
+        if(!block || block.type === BlockType.Air) return
+        var mineLevel = block.mineLevel
+        mineLevel += BlockProps[block.type].mineLevelStep
+        if(mineLevel >= 1){
             this.setBlock(x, y, BlockType.Air)
-            this.mineLevel = 0
+        }else{
+            this.setBlock(x, y, block.type, mineLevel)
         }
     }
 
-    setBlock(x, y, type) {
+    setBlock(x, y, type, mineLevel = 0) {
         if(this.outOfBounds(x, y)){
             throw 'Block out of range'
         }else{
             var relX = parseInt(x / BLOCK_SIZE)
             var relY = parseInt(y / BLOCK_SIZE)
             Log.debug(`chunk set block ${relX},${relY}. bindex = ${relY * CHUNK_SIZE_BLOCK + relX}`)
-            this.blocks[relY * CHUNK_SIZE_BLOCK + relX] = new Block(type)
+            this.blocks[relY * CHUNK_SIZE_BLOCK + relX] = new Block(type, mineLevel)
         }
     }
 
@@ -51,7 +53,7 @@ class Chunk {
     }
 
     addToBuffer() {
-        this.mesh.add(this.blocks, this.mineLevel)
+        this.mesh.add(this.blocks)
         this.isBuffered = true
         return true
     }
