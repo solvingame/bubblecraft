@@ -8,7 +8,8 @@ const BlockType = {
     Stone: 6,
     Wood: 7,
     Leaf: 8,
-    Bubble: 9
+    Plant: 9,
+    Bubble: 10
 }
 
 class Block{

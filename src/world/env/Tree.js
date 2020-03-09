@@ -1,5 +1,5 @@
 class Tree{
-    static generateOak(chunk, tree){
+    static make(chunk, tree){
         const height = Random.get(parseInt(tree.x)).intInRange(3, 6)
         for(var y = 1; y <= height; y++){
             chunk.world.setBlock(chunk.position.x + tree.x, tree.y + y * BLOCK_SIZE, BlockType.Wood)

@@ -31,6 +31,10 @@ const BlockProps = {
         isCollidable: 1,
         mineLevelStep: 0.1
     },
+    [BlockType.Plant]: {
+        isCollidable: 0,
+        mineLevelStep: 1
+    },
     [BlockType.Bubble]: {
         isCollidable: 1,
         mineLevelStep: 0

@@ -91,7 +91,7 @@ class Player {
             const { x, y } = camera.fromCanvasCoord(position)
             var relY = y + BLOCK_SIZE * (CHUNK_SIZE / this.size)
             var block = world.getBlock(x, relY)
-            if (block && block.type != BlockType.Air && BlockProps[block.type].isCollidable) {
+            if (block && block.type != BlockType.Air) {
                 world.mine(x, relY)
                 world.updateChunk(x, relY)
             }

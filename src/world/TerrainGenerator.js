@@ -14,6 +14,7 @@ class TerrainGenerator {
     generate(chunk) {
         this.chunk = chunk
         var trees = []
+        var plants = []
         const heightMap = this.getHeightMap()
         for (var iBlock = 0; iBlock < CHUNK_SIZE_BLOCK; iBlock++) {
             var x = iBlock * BLOCK_SIZE
@@ -31,6 +32,8 @@ class TerrainGenerator {
                             }
                             if(Random.get(chunk.position.x + x + y).intInRange(0, 100) > 90){
                                 trees.push({x, y})
+                            }else if(Random.get(chunk.position.x + x + y).intInRange(0, 100) > 30){
+                                plants.push({x, y: y + BLOCK_SIZE})
                             }
                             Log.debug(`Grass`)
                             chunk.setBlock(x, y, BlockType.Grass)
@@ -60,7 +63,10 @@ class TerrainGenerator {
             }
         }
         for(var iTree in trees){
-            Tree.generateOak(chunk, trees[iTree])
+            Tree.make(chunk, trees[iTree])
+        }
+        for(var iPlant in plants){
+            Plant.make(chunk, plants[iPlant])
         }
     }
 
