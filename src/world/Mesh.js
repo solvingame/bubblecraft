@@ -1,4 +1,7 @@
-class Mesh {
+import { BlockType } from './block/Block.js'
+import BlockBuilder from './block/BlockBuilder.js'
+
+export default class Mesh {
     constructor(position, size = CHUNK_SIZE) {
         this.size = size
         this.position = position
@@ -30,7 +33,7 @@ class Mesh {
                 if(pixel.mineLevel > 0){
                     const rand = Math.random()
                     if(rand <= pixel.mineLevel){
-                        rgb = [0, 0, 0, 255]
+                        rgb = [0, 0, 0, 0]
                     }
                 }
             } else {

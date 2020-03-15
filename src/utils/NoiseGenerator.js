@@ -1,4 +1,4 @@
-class NoiseGenerator{
+export default class NoiseGenerator{
     constructor(seed){
         this.seed = seed
         this.configs = {

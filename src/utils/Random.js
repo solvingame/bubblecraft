@@ -1,4 +1,4 @@
-class Random{
+export default class Random{
     static random = null
     constructor(){
         this.seed = Date.now()

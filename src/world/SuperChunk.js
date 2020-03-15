@@ -1,4 +1,7 @@
-class SuperChunk{
+import Chunk from './Chunk.js'
+import Block from './block/Block.js'
+
+export default class SuperChunk{
     constructor(position, world){
         this.position = position
         this.world = world

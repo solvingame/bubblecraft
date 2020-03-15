@@ -1,4 +1,4 @@
-class SkyRenderer{
+export default class SkyRenderer{
     render(camera, appTime){
         var skyGradient = contextSky.createLinearGradient(0, 0, 0, WINDOW_HEIGHT)
         appTime *= 2

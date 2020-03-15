@@ -1,4 +1,9 @@
-class Player {
+import Block, { BlockType } from './block/Block.js'
+import Mesh from './Mesh.js'
+import { MouseButton } from '../core/Mouse.js'
+import BlockProps from './block/BlockProps.js'
+
+export default class Player {
     constructor(position) {
         this.position = position
         this.isBuffered = false
@@ -114,7 +119,7 @@ class Player {
                 const relY = y + BLOCK_SIZE * (CHUNK_SIZE / this.size - 1)
                 var block = world.getBlock(x, relY)
                 if (block && block.type != BlockType.Air) {
-                    if (BlockProps[block.type].isCollidable) {
+                    if (BlockProps.get(block.type).isCollidable) {
                         if (velocity.y > 0) {
                             this.velocity.y = 0
                         } else if (velocity.y < 0) {

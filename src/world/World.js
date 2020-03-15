@@ -1,4 +1,6 @@
-class World {
+import ChunkManager from './ChunkManager.js'
+
+export default class World {
     constructor(noiseGenerator) {
         this.chunkManager = new ChunkManager(noiseGenerator, this)
         this.renderDistance = RENDER_DISTANCE

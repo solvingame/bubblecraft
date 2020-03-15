@@ -1,5 +1,6 @@
-const CHUNK_SIZE_BLOCK = 4
-const BLOCK_SIZE = 25
+const CHUNK_SIZE_BLOCK = 2
+const BLOCK_SIZE = 50
+const BLOCKTEX_SIZE = 50
 const CHUNK_SIZE = CHUNK_SIZE_BLOCK * BLOCK_SIZE
 const WINDOW_WIDTH = window.innerWidth
 const WINDOW_HEIGHT = window.innerHeight

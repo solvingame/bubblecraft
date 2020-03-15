@@ -1,4 +1,4 @@
-class Camera {
+export default class Camera {
     constructor(position) {
         this.position = position
         this.speed = 5

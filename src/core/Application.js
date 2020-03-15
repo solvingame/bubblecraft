@@ -1,6 +1,11 @@
-class Application {
-    constructor(title, renderer, noiseGenerator, camera) {
-        this.title = title
+import Window from './Window.js'
+import World from '../world/World.js'
+import Player from '../world/Player.js'
+import BlockTex from '../world/block/BlockTex.js'
+
+export default class Application {
+    constructor(renderer, noiseGenerator, camera) {
+        this.title = 'Bubblecraft'
         this.renderer = renderer
         this.camera = camera
         this.window = new Window()
@@ -12,6 +17,12 @@ class Application {
         this.oneTimeDay = 600
         this.nbFrame = 0
         this.runLoop = this.runLoop.bind(this)
+    }
+
+    start(){
+        this.init().then(
+            this.runLoop
+        )
     }
 
     loadEvents() {
@@ -33,6 +44,11 @@ class Application {
         requestAnimationFrame(this.runLoop)
     }
 
+    init(){
+        this.loadEvents()
+        return BlockTex.load()
+    }
+
     updateAppTime() {
         const timeRel = ((Date.now() - this.startTimePlay) % (this.oneTimeDay * 1000)) / (this.oneTimeDay * 1000 / 2)
         this.appTime = timeRel / 2
@@ -41,7 +57,7 @@ class Application {
     updateFPS() {
         const deltaTime = (Date.now() - this.startTimeFPS) / 1000
         if (deltaTime > 1) {
-            document.title = `${title} - (${parseInt(this.nbFrame / deltaTime)} FPS)`
+            document.title = `${this.title} - (${parseInt(this.nbFrame / deltaTime)} FPS)`
             this.nbFrame = 0
             this.startTimeFPS = Date.now()
         } else {

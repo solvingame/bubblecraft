@@ -1,4 +1,4 @@
-class Maths{
+export default class Maths{
     static smoothInterpolation(bottomLeft, topLeft, bottomRight, topRight,
         xMin, xMax,
         zMin, zMax,

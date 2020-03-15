@@ -1,4 +1,7 @@
-class Renderer{
+import ChunkRenderer from './ChunkRenderer.js'
+import SkyRenderer from './SkyRenderer.js'
+
+export default class Renderer{
     constructor(){
         this.chunkRenderer = new ChunkRenderer()
         this.skyRenderer = new SkyRenderer()

@@ -1,9 +1,9 @@
-const MouseButton = {
+export const MouseButton = {
     LEFT: 0,
     RIGHT: 2
 }
 
-class Mouse{
+export default class Mouse{
     constructor(){
         this.keys = []
         this.position = {x: 0, y: 0}

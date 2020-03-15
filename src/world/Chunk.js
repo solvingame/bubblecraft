@@ -1,4 +1,9 @@
-class Chunk {
+import Block, { BlockType } from './block/Block.js'
+import Mesh from './Mesh.js'
+import Log from '../utils/Log.js'
+import BlockProps from './block/BlockProps.js'
+
+export default class Chunk {
     constructor(position, world) {
         this.blocks = new Array(CHUNK_SIZE_BLOCK * CHUNK_SIZE_BLOCK)
         this.blocks.fill(new Block())
@@ -9,22 +14,22 @@ class Chunk {
         this.world = world
     }
 
-    mine(x, y){
+    mine(x, y) {
         const block = this.getBlock(x, y)
-        if(!block || block.type === BlockType.Air) return
+        if (!block || block.type === BlockType.Air) return
         var mineLevel = block.mineLevel
-        mineLevel += BlockProps[block.type].mineLevelStep
-        if(mineLevel >= 1){
+        mineLevel += BlockProps.get(block.type).mineLevelStep
+        if (mineLevel >= 1) {
             this.setBlock(x, y, BlockType.Air)
-        }else{
+        } else {
             this.setBlock(x, y, block.type, mineLevel)
         }
     }
 
     setBlock(x, y, type, mineLevel = 0) {
-        if(this.outOfBounds(x, y)){
+        if (this.outOfBounds(x, y)) {
             throw 'Block out of range'
-        }else{
+        } else {
             var relX = parseInt(x / BLOCK_SIZE)
             var relY = parseInt(y / BLOCK_SIZE)
             Log.debug(`chunk set block ${relX},${relY}. bindex = ${relY * CHUNK_SIZE_BLOCK + relX}`)
@@ -32,8 +37,8 @@ class Chunk {
         }
     }
 
-    getBlock(x, y){
-        if(this.outOfBounds(x, y)){
+    getBlock(x, y) {
+        if (this.outOfBounds(x, y)) {
             var block = this.world.getBlock(this.position.x + x, this.position.y + y)
             return block
         }
@@ -42,7 +47,7 @@ class Chunk {
         return this.blocks[relY * CHUNK_SIZE_BLOCK + relX]
     }
 
-    outOfBounds(x, y){
+    outOfBounds(x, y) {
         return y > CHUNK_SIZE || x > CHUNK_SIZE || x < 0 || y < 0
     }
 

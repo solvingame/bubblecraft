@@ -1,4 +1,4 @@
-class ChunkRenderer{
+export default class ChunkRenderer{
     constructor(){
         this.meshes = []
     }

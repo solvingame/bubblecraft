@@ -1,4 +1,11 @@
-class TerrainGenerator {
+import Maths from '../utils/Maths.js'
+import Log from '../utils/Log.js'
+import Random from '../utils/Random.js'
+import { BlockType } from './block/Block.js'
+import Plant from './env/Plant.js'
+import Tree from './env/Tree.js'
+
+export default class TerrainGenerator {
     constructor(noiseGenerator) {
         this.noiseGenerator = noiseGenerator
         this.chunk = null
@@ -30,10 +37,10 @@ class TerrainGenerator {
                                 chunk.setBlock(x, y, BlockType.Sand)
                                 continue
                             }
-                            if(Random.get(chunk.position.x + x + y).intInRange(0, 100) > 90){
-                                trees.push({x, y})
-                            }else if(Random.get(chunk.position.x + x + y).intInRange(0, 100) > 30){
-                                plants.push({x, y: y + BLOCK_SIZE})
+                            if (Random.get(chunk.position.x + x + y).intInRange(0, 100) > 90) {
+                                trees.push({ x, y })
+                            } else if (Random.get(chunk.position.x + x + y).intInRange(0, 100) > 30) {
+                                plants.push({ x, y: y + BLOCK_SIZE })
                             }
                             Log.debug(`Grass`)
                             chunk.setBlock(x, y, BlockType.Grass)
@@ -46,7 +53,7 @@ class TerrainGenerator {
                         if (Random.get(chunk.position.x + x * y).intInRange(0, 400) > Math.max(400 - y, 10)) {
                             Log.debug(`Dirt`)
                             chunk.setBlock(x, y, BlockType.Dirt)
-                        }else{
+                        } else {
                             Log.debug(`Stone`)
                             chunk.setBlock(x, y, BlockType.Stone)
                         }
@@ -62,10 +69,10 @@ class TerrainGenerator {
                 }
             }
         }
-        for(var iTree in trees){
+        for (var iTree in trees) {
             Tree.make(chunk, trees[iTree])
         }
-        for(var iPlant in plants){
+        for (var iPlant in plants) {
             Plant.make(chunk, plants[iPlant])
         }
     }

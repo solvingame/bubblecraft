@@ -1,4 +1,7 @@
-class Window{
+import Keyboard from './Keyboard.js'
+import Mouse from './Mouse.js'
+
+export default class Window{
     constructor(){
         this.keyboard = new Keyboard()
         this.mouse = new Mouse()

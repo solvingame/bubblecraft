@@ -1,4 +1,7 @@
-class ChunkManager{
+import TerrainGenerator from './TerrainGenerator.js'
+import SuperChunk from './SuperChunk.js'
+
+export default class ChunkManager{
     constructor(noiseGenerator, world){
         this.chunks = []
         this.world = world
