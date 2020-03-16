@@ -2,36 +2,28 @@ import Block, { BlockType } from './block/Block.js'
 import Mesh from './Mesh.js'
 import { MouseButton } from '../core/Mouse.js'
 import BlockProps from './block/BlockProps.js'
+import Creature from '../core/Creature.js'
 
-export default class Player {
+export default class Player extends Creature{
     constructor(position) {
-        this.position = position
-        this.isBuffered = false
-        this.size = BLOCK_SIZE
-        this.blocks = new Array(Math.pow(this.size / BLOCK_SIZE, 2))
-        this.blocks.fill(new Block(BlockType.Bubble))
-        this.mesh = new Mesh(position, this.size)
-        this.acceleration = { x: 0, y: 0 }
-        this.velocity = { x: 0, y: 0 }
-        this.isOnGround = false
-        this.isUnderWater = false
-    }
-
-    move(dx, dy) {
-        this.acceleration.x = dx * this.speed
-        this.acceleration.y = dy * this.speed
+        super({
+            moveBlocks: [BlockType.Player, BlockType.PlayerMove],
+            swimBlocks: [BlockType.PlayerSwim1, BlockType.PlayerSwim2],
+            position: position
+        })
     }
 
     update(world) {
+        this.updateBlock()
         this.addToBuffer()
         this.velocity.x += this.acceleration.x
         this.velocity.y += this.acceleration.y
 
         if (this.isUnderWater) {
-            this.gravity = 0.01
-            this.speed = 0.1
-        } else {
+            this.gravity = 0.02
             this.speed = 0.5
+        } else {
+            this.speed = 1
             this.gravity = 0.2
         }
 
@@ -49,7 +41,7 @@ export default class Player {
 
         this.position.x += this.velocity.x
         this.position.y += this.velocity.y
-        this.velocity.x *= 0.9
+        this.velocity.x *= 0.5
 
         if (this.isOnGround) {
             this.position.y = parseInt(this.position.y)
@@ -105,7 +97,7 @@ export default class Player {
 
     jump() {
         if (this.isOnGround) {
-            this.acceleration.y += (this.speed * 13)
+            this.acceleration.y += (this.speed * 5)
         }
     }
 

@@ -19,7 +19,10 @@ export default class Mesh {
                 var block = blocks[parseInt(col/BLOCK_SIZE) + parseInt(row/BLOCK_SIZE) * this.size / BLOCK_SIZE]
                 if(block.type != BlockType.Air){
                     pixels[relCol + relRow * this.size] = {
-                        rgb: BlockBuilder.get(block).at(relCol % BLOCK_SIZE, relRow % BLOCK_SIZE),
+                        rgb: BlockBuilder.get(block).at(
+                            block.reverse ? BLOCK_SIZE - (relCol % BLOCK_SIZE) : (relCol % BLOCK_SIZE), 
+                            relRow % BLOCK_SIZE
+                        ),
                         mineLevel: block.mineLevel
                     }
                 }
@@ -39,10 +42,12 @@ export default class Mesh {
             } else {
                 rgb = [255, 255, 255, 0]
             }
-            this.data[i] = rgb[0]
-            this.data[i + 1] = rgb[1]
-            this.data[i + 2] = rgb[2]
-            this.data[i + 3] = rgb[3]
+            if(rgb){
+                this.data[i] = rgb[0]
+                this.data[i + 1] = rgb[1]
+                this.data[i + 2] = rgb[2]
+                this.data[i + 3] = rgb[3]
+            }
         }
     }
 }

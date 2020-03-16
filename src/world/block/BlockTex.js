@@ -46,7 +46,8 @@ export default class BlockTex {
         do{
             const x = BLOCKTEX_SIZE * numBlockTex * (iX + startX * BLOCKTEX_SIZE)
             for(var iY = 0; iY < BLOCKTEX_SIZE; iY++){
-                pixels.push(this.texData[x + (iY + startY * BLOCKTEX_SIZE)])
+                const pixel = this.texData[x + (iY + startY * BLOCKTEX_SIZE)]
+                pixels.push(pixel)
             }
             iX ++
         }while(iX < BLOCKTEX_SIZE)

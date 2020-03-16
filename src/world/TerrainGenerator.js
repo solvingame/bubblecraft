@@ -39,7 +39,7 @@ export default class TerrainGenerator {
                             }
                             if (Random.get(chunk.position.x + x + y).intInRange(0, 100) > 90) {
                                 trees.push({ x, y })
-                            } else if (Random.get(chunk.position.x + x + y).intInRange(0, 100) > 30) {
+                            } else if (Random.get(chunk.position.x + x + y).intInRange(0, 100) > 20) {
                                 plants.push({ x, y: y + BLOCK_SIZE })
                             }
                             Log.debug(`Grass`)

@@ -13,6 +13,12 @@ canvas{
     top: 0;
     left: 0;
 }
+#object{
+    z-index: 3;
+}
 #root{
+    z-index: 2;
+}
+#sky{
     z-index: 1;
 }

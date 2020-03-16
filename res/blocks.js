@@ -1,4 +1,9 @@
 export default {
+    "air": {
+        "texColor": [0, 0, 0, 0],
+        "isCollidable": 0,
+        "mineLevelStep": 0
+    },
     "grass": {
         "tex": [1, 2],
         "isCollidable": 1,
@@ -10,7 +15,7 @@ export default {
         "mineLevelStep": 0
     },
     "sand": {
-        "texColor": [255, 193, 7, 255],
+        "tex": [1, 8],
         "isCollidable": 1,
         "mineLevelStep": 0.3
     },
@@ -25,7 +30,7 @@ export default {
         "mineLevelStep": 0.3
     },
     "stone": {
-        "texColor": [101, 119, 127, 255],
+        "tex": [1, 7],
         "isCollidable": 1,
         "mineLevelStep": 0.01
     },
@@ -40,13 +45,38 @@ export default {
         "mineLevelStep": 0.1
     },
     "plant": {
+        "tex": [1, 6],
+        "isCollidable": 0,
+        "mineLevelStep": 1
+    },
+    "flowerRed": {
         "tex": [1, 3],
         "isCollidable": 0,
         "mineLevelStep": 1
     },
-    "bubble": {
-        "texColor": [233, 30, 99, 255],
-        "isCollidable": 1,
+    "flowerBlue": {
+        "tex": [1, 9],
+        "isCollidable": 0,
+        "mineLevelStep": 1
+    },
+    "player": {
+        "tex": [1, 10],
+        "isCollidable": 0,
+        "mineLevelStep": 0
+    },
+    "playerMove": {
+        "tex": [2, 1],
+        "isCollidable": 0,
+        "mineLevelStep": 0
+    },
+    "playerSwim1": {
+        "tex": [2, 2],
+        "isCollidable": 0,
+        "mineLevelStep": 0
+    },
+    "playerSwim2": {
+        "tex": [2, 3],
+        "isCollidable": 0,
         "mineLevelStep": 0
     }
 }

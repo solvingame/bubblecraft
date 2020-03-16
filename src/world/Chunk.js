@@ -33,7 +33,7 @@ export default class Chunk {
             var relX = parseInt(x / BLOCK_SIZE)
             var relY = parseInt(y / BLOCK_SIZE)
             Log.debug(`chunk set block ${relX},${relY}. bindex = ${relY * CHUNK_SIZE_BLOCK + relX}`)
-            this.blocks[relY * CHUNK_SIZE_BLOCK + relX] = new Block(type, mineLevel)
+            this.blocks[relY * CHUNK_SIZE_BLOCK + relX] = new Block(type, {mineLevel})
         }
     }
 
