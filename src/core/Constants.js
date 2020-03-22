@@ -16,3 +16,10 @@ const CONTROLS = {
     JUMP: 32,
     MINE: 17
 }
+
+const DIRECTION = {
+    UP: 0,
+    BOTTOM: 1,
+    LEFT: 2,
+    RIGHT: 3
+}

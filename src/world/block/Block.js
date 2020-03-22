@@ -14,7 +14,10 @@ export const BlockType = {
     Player: "player",
     PlayerMove: "playerMove",
     PlayerSwim1: "playerSwim1",
-    PlayerSwim2: "playerSwim2"
+    PlayerSwim2: "playerSwim2",
+    BubbleRed: "bubbleRed",
+    BubbleRedMove1: "bubbleRedMove1",
+    BubbleRedMove2: "bubbleRedMove2"
 }
 
 export default class Block{

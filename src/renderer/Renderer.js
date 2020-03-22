@@ -1,7 +1,7 @@
 import ChunkRenderer from './ChunkRenderer.js'
 import SkyRenderer from './SkyRenderer.js'
-import Player from '../world/Player.js'
 import ObjectRenderer from './ObjectRenderer.js'
+import Entity from '../core/Entity.js'
 
 export default class Renderer{
     constructor(){
@@ -14,7 +14,7 @@ export default class Renderer{
     }
 
     draw(object){
-        if(object instanceof Player){
+        if(object instanceof Entity){
             this.objectRenderer.add(object.mesh)
         }else{
             this.chunkRenderer.add(object.mesh)

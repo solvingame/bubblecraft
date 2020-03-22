@@ -2,8 +2,9 @@ import Maths from '../utils/Maths.js'
 import Log from '../utils/Log.js'
 import Random from '../utils/Random.js'
 import { BlockType } from './block/Block.js'
-import Plant from './env/Plant.js'
-import Tree from './env/Tree.js'
+import PlantGenerator from './env/PlantGenerator.js'
+import TreeGenerator from './env/TreeGenerator.js'
+import CreatureManager from './CreatureManager.js'
 
 export default class TerrainGenerator {
     constructor(noiseGenerator) {
@@ -22,6 +23,7 @@ export default class TerrainGenerator {
         this.chunk = chunk
         var trees = []
         var plants = []
+        var creatures = []
         const heightMap = this.getHeightMap()
         for (var iBlock = 0; iBlock < CHUNK_SIZE_BLOCK; iBlock++) {
             var x = iBlock * BLOCK_SIZE
@@ -41,6 +43,9 @@ export default class TerrainGenerator {
                                 trees.push({ x, y })
                             } else if (Random.get(chunk.position.x + x + y).intInRange(0, 100) > 20) {
                                 plants.push({ x, y: y + BLOCK_SIZE })
+                            }
+                            if(Random.get(chunk.position.x + x + y).intInRange(0, 8) === 2){
+                                creatures.push({ x, y })
                             }
                             Log.debug(`Grass`)
                             chunk.setBlock(x, y, BlockType.Grass)
@@ -70,10 +75,14 @@ export default class TerrainGenerator {
             }
         }
         for (var iTree in trees) {
-            Tree.make(chunk, trees[iTree])
+            TreeGenerator.make(chunk, trees[iTree])
         }
         for (var iPlant in plants) {
-            Plant.make(chunk, plants[iPlant])
+            PlantGenerator.make(chunk, plants[iPlant])
+        }
+        for (var iCreature in creatures) {
+            const creature = creatures[iCreature]
+            CreatureManager.get(this.chunk.world).load(chunk.position.x + creature.x, creature.y)
         }
     }
 

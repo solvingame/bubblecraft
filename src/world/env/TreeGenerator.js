@@ -1,7 +1,7 @@
 import Random from '../../utils/Random.js'
 import { BlockType } from '../block/Block.js'
 
-export default class Tree {
+export default class TreeGenerator {
     static make(chunk, tree) {
         const height = Random.get(parseInt(tree.x)).intInRange(3, 6)
         for (var y = 1; y <= height; y++) {

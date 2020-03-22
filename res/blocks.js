@@ -78,5 +78,20 @@ export default {
         "tex": [2, 3],
         "isCollidable": 0,
         "mineLevelStep": 0
-    }
+    },
+    "bubbleRed": {
+        "tex": [3, 1],
+        "isCollidable": 0,
+        "mineLevelStep": 0
+    },
+    "bubbleRedMove1": {
+        "tex": [3, 2],
+        "isCollidable": 0,
+        "mineLevelStep": 0
+    },
+    "bubbleRedMove2": {
+        "tex": [3, 3],
+        "isCollidable": 0,
+        "mineLevelStep": 0
+    },
 }

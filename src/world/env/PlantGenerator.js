@@ -1,7 +1,7 @@
 import { BlockType } from '../block/Block.js'
 import Random from '../../utils/Random.js'
 
-export default class Plant {
+export default class PlantGenerator {
     static make(chunk, plant) {
         var plantType = BlockType.Plant
         const rand = Random.get(parseInt(plant.x)).intInRange(1, 10)

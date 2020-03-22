@@ -1,8 +1,10 @@
 import ChunkManager from './ChunkManager.js'
+import CreatureManager from './CreatureManager.js'
 
 export default class World {
     constructor(noiseGenerator) {
         this.chunkManager = new ChunkManager(noiseGenerator, this)
+        this.creatureManager = CreatureManager.get(this)
         this.renderDistance = RENDER_DISTANCE
         this.loadDistance = 2
         this.updateChunks = []
@@ -10,6 +12,7 @@ export default class World {
 
     draw(renderer, camera) {
         const chunks = this.chunkManager.chunks
+        const creatures = this.creatureManager.creatures
         for (var iChunk in chunks) {
             const chunk = chunks[iChunk]
             const chunkElement = chunk.element
@@ -20,6 +23,17 @@ export default class World {
                 this.chunkManager.chunks.splice(iChunk, 1)
             } else {
                 chunkElement.draw(renderer)
+            }
+        }
+        for (var iCreature in creatures) {
+            const creature = creatures[iCreature]
+            var cameraX = camera.position.x
+            var minX = cameraX - this.renderDistance * CHUNK_SIZE
+            var maxX = cameraX + this.renderDistance * CHUNK_SIZE
+            if (minX > creature.position.x || maxX < creature.position.x) {
+                this.creatureManager.creatures.splice(iCreature, 1)
+            } else {
+                creature.draw(renderer)
             }
         }
     }
@@ -48,6 +62,7 @@ export default class World {
         for(var iUpdateChunk in this.updateChunks){
             this.updateChunks[iUpdateChunk].addToBuffer()
         }
+        this.creatureManager.update(this)
         this.updateChunks = []
     }
 
