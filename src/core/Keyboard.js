@@ -1,23 +1,28 @@
-export default class Keyboard{
-    constructor(){
-        this.keys = []
-    }
+define(function () {
 
-    setKeyPressed(key){
-        if(!this.isKeyPressed(key)){
-            this.keys.push(key)
+    class Keyboard {
+        constructor() {
+            this.keys = []
         }
-    }
 
-    setKeyReleased(key){
-        if(this.isKeyPressed(key)){
+        setKeyPressed(key) {
+            if (!this.isKeyPressed(key)) {
+                this.keys.push(key)
+            }
+        }
+
+        setKeyReleased(key) {
+            if (this.isKeyPressed(key)) {
+                var index = this.keys.indexOf(key)
+                this.keys.splice(index, 1)
+            }
+        }
+
+        isKeyPressed(key) {
             var index = this.keys.indexOf(key)
-            this.keys.splice(index, 1)
+            return index !== -1
         }
     }
 
-    isKeyPressed(key){
-        var index = this.keys.indexOf(key)
-        return index !== -1
-    }
-}
+    return Keyboard
+})

@@ -1,6 +1,10 @@
-import { BlockType } from '../block/Block.js'
+define(function (require) {
+    const { BlockType } = require('../block/Block.js')
 
-export default class CreatureGenerator {
-    static make(creature) {
+    class CreatureGenerator {
+        static make(creature) {
+        }
     }
-}
+
+    return CreatureGenerator
+})

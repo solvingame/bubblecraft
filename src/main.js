@@ -1,14 +1,17 @@
-import NoiseGenerator from './utils/NoiseGenerator.js'
-import Camera from './core/Camera.js'
-import Renderer from './renderer/Renderer.js'
-import Application from './core/Application.js'
+define(function (require) {
 
-const seed = Math.random() * 10000
-//const seed = 1687.1076386247673
-var noiseGenerator = new NoiseGenerator(seed)
+    const NoiseGenerator = require('/src/utils/NoiseGenerator.js')
+    const Camera = require('/src/core/Camera.js')
+    const Renderer = require('/src/renderer/Renderer.js')
+    const Application = require('/src/core/Application.js')
 
-var camera = new Camera()
-var renderer = new Renderer()
-var app = new Application(renderer, noiseGenerator, camera)
+    const seed = Math.random() * 10000
+    //const seed = 1687.1076386247673
+    var noiseGenerator = new NoiseGenerator(seed)
 
-app.start()
+    var camera = new Camera({ x: 50000, y: 1000 })
+    var renderer = new Renderer()
+    var app = new Application(renderer, noiseGenerator, camera)
+
+    app.start()
+})

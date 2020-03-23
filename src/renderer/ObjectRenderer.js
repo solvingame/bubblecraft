@@ -1,20 +1,25 @@
-export default class ObjectRenderer{
-    constructor(){
-        this.meshes = []
-    }
+define(function () {
 
-    render(camera){
-        contextObject.globalAlpha = 0
-        for(var iMesh in this.meshes){
-            const mesh = this.meshes[iMesh]
-            const {x, y} = camera.toCanvasCoord(mesh.position)
-            contextObject.putImageData(mesh.imgData, x, y)
+    class ObjectRenderer {
+        constructor() {
+            this.meshes = []
         }
-        this.meshes = []
-        contextObject.globalAlpha = 1
+
+        render(camera) {
+            contextObject.globalAlpha = 0
+            for (var iMesh in this.meshes) {
+                const mesh = this.meshes[iMesh]
+                const { x, y } = camera.toCanvasCoord(mesh.position)
+                contextObject.putImageData(mesh.imgData, x, y)
+            }
+            this.meshes = []
+            contextObject.globalAlpha = 1
+        }
+
+        add(mesh) {
+            this.meshes.push(mesh)
+        }
     }
 
-    add(mesh){
-        this.meshes.push(mesh)
-    }
-}
+    return ObjectRenderer
+})

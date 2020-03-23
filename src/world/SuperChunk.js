@@ -1,92 +1,97 @@
-import Chunk from './Chunk.js'
-import Block from './block/Block.js'
+define(function (require) {
 
-export default class SuperChunk{
-    constructor(position, world){
-        this.position = position
-        this.world = world
-        this.chunks = []
-        this.isLoaded = false
-        this.isBuffered = false
-    }
+    const Chunk = require('./Chunk.js')
+    const Block = require('./block/Block.js')
 
-    setBlock(x, y, type){
-        var index = parseInt(y / CHUNK_SIZE)
-        this.addChunkIndex(index)
-
-        if(this.outOfBounds(x, y)){
-            return
+    class SuperChunk {
+        constructor(position, world) {
+            this.position = position
+            this.world = world
+            this.chunks = []
+            this.isLoaded = false
+            this.isBuffered = false
         }
 
-        this.chunks[index].setBlock(x, y % CHUNK_SIZE, type)
-    }
+        setBlock(x, y, type) {
+            var index = parseInt(y / CHUNK_SIZE)
+            this.addChunkIndex(index)
 
-    mine(x, y){
-        if(this.outOfBounds(x, y)){
-            throw 'Block out of range'
+            if (this.outOfBounds(x, y)) {
+                return
+            }
+
+            this.chunks[index].setBlock(x, y % CHUNK_SIZE, type)
         }
-        this.chunks[parseInt(y / CHUNK_SIZE)].mine(x, y % CHUNK_SIZE)
-    }
 
-    getBlock(x, y){
-        if(this.outOfBounds(x, y)){
-            return new Block()
+        mine(x, y) {
+            if (this.outOfBounds(x, y)) {
+                throw 'Block out of range'
+            }
+            this.chunks[parseInt(y / CHUNK_SIZE)].mine(x, y % CHUNK_SIZE)
         }
-        return this.chunks[parseInt(y / CHUNK_SIZE)].getBlock(x, y % CHUNK_SIZE)
-    }
 
-    getChunk(index){
-        if(index >= this.chunks.length || index < 0){
-            return null
+        getBlock(x, y) {
+            if (this.outOfBounds(x, y)) {
+                return new Block()
+            }
+            return this.chunks[parseInt(y / CHUNK_SIZE)].getBlock(x, y % CHUNK_SIZE)
         }
-        return this.chunks[index]
-    }
 
-    addChunk(){
-        var y = this.chunks.length
-        this.chunks.push(new Chunk({x: this.position.x, y: y * CHUNK_SIZE}, this.world))
-    }
-
-    addChunkIndex(index){
-        while(this.chunks.length <= index){
-            this.addChunk()
+        getChunk(index) {
+            if (index >= this.chunks.length || index < 0) {
+                return null
+            }
+            return this.chunks[index]
         }
-    }
 
-    load(generator) {
-        if (!this.isLoaded) {
-            generator.generate(this)
-            this.isLoaded = true
+        addChunk() {
+            var y = this.chunks.length
+            this.chunks.push(new Chunk({ x: this.position.x, y: y * CHUNK_SIZE }, this.world))
         }
-    }
 
-    draw(renderer) {
-        for(var iChunk in this.chunks){
-            this.chunks[iChunk].draw(renderer)
-        }
-    }
-
-    outOfBounds(x, y){
-        if(
-            x >= CHUNK_SIZE ||
-            x < 0 ||
-            y < 0 ||
-            y >= this.chunks.length * CHUNK_SIZE
-        ){
-            return true
-        }
-        return false
-    }
-
-    addToBuffer() {
-        if(this.isLoaded){
-            for(var iChunk in this.chunks){
-                if(!this.chunks[iChunk].isBuffered){
-                    this.chunks[iChunk].addToBuffer()
-                    return true
-                }
+        addChunkIndex(index) {
+            while (this.chunks.length <= index) {
+                this.addChunk()
             }
         }
-        return false
+
+        load(generator) {
+            if (!this.isLoaded) {
+                generator.generate(this)
+                this.isLoaded = true
+            }
+        }
+
+        draw(renderer) {
+            for (var iChunk in this.chunks) {
+                this.chunks[iChunk].draw(renderer)
+            }
+        }
+
+        outOfBounds(x, y) {
+            if (
+                x >= CHUNK_SIZE ||
+                x < 0 ||
+                y < 0 ||
+                y >= this.chunks.length * CHUNK_SIZE
+            ) {
+                return true
+            }
+            return false
+        }
+
+        addToBuffer() {
+            if (this.isLoaded) {
+                for (var iChunk in this.chunks) {
+                    if (!this.chunks[iChunk].isBuffered) {
+                        this.chunks[iChunk].addToBuffer()
+                        return true
+                    }
+                }
+            }
+            return false
+        }
     }
-}
+
+    return SuperChunk
+})

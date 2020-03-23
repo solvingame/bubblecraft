@@ -1,20 +1,25 @@
-export default class ChunkRenderer{
-    constructor(){
-        this.meshes = []
-    }
+define(function () {
 
-    render(camera){
-        context.globalAlpha = 0
-        for(var iMesh in this.meshes){
-            const mesh = this.meshes[iMesh]
-            const {x, y} = camera.toCanvasCoord(mesh.position)
-            context.putImageData(mesh.imgData, x, y)
+    class ChunkRenderer {
+        constructor() {
+            this.meshes = []
         }
-        this.meshes = []
-        context.globalAlpha = 1
+
+        render(camera) {
+            context.globalAlpha = 0
+            for (var iMesh in this.meshes) {
+                const mesh = this.meshes[iMesh]
+                const { x, y } = camera.toCanvasCoord(mesh.position)
+                context.putImageData(mesh.imgData, x, y)
+            }
+            this.meshes = []
+            context.globalAlpha = 1
+        }
+
+        add(mesh) {
+            this.meshes.push(mesh)
+        }
     }
 
-    add(mesh){
-        this.meshes.push(mesh)
-    }
-}
+    return ChunkRenderer
+})

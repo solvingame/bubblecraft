@@ -1,4 +1,6 @@
-export default {
+define(function(){
+
+return {
     "air": {
         "texColor": [0, 0, 0, 0],
         "isCollidable": 0,
@@ -95,3 +97,5 @@ export default {
         "mineLevelStep": 0
     },
 }
+
+})
