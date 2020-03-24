@@ -8,9 +8,9 @@ define(function (require) {
         constructor(position, size = CHUNK_SIZE) {
             this.size = size
             this.position = position
-            //const canvas = new OffscreenCanvas(this.size, this.size)
-            //const context = canvas.getContext('2d')
-            this.imgData = context.createImageData(this.size, this.size)
+            this.canvas = new OffscreenCanvas(this.size, this.size)
+            this.context = this.canvas.getContext('2d')
+            this.imgData = this.context.createImageData(this.size, this.size)
             this.data = this.imgData.data
         }
 

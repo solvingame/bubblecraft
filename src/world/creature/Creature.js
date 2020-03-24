@@ -3,6 +3,7 @@ define(function (require) {
     const Entity = require('../../core/Entity.js')
     const { BlockType } = require('../block/Block.js')
     const Random = require('../../utils/Random.js')
+    const BlockProps = require('../block/BlockProps.js')
 
     class Creature extends Entity {
         constructor(position) {
@@ -19,9 +20,10 @@ define(function (require) {
                 }
             })
             this.waitNexMove = 100
-            this.timeChangeDirection = 6000
+            this.timeUpdateDirection = 6000
             this.targetPosition = 0
-            this.startMove = Date.now()
+            this.startDateMove = Date.now()
+            this.startDateNewTargetPosition = Date.now()
             this.blocked = false
         }
 
@@ -36,21 +38,29 @@ define(function (require) {
             if (keyboard) {
                 this.move(1 << keyboard)
             }
-            if(this.lastPosition && diffDistance !== 0 && this.blocked){
+            if(
+                (keyboard === DIRECTION.RIGHT && BlockProps.get(this.neightbors.right.type).isCollidable) ||
+                (keyboard === DIRECTION.LEFT && BlockProps.get(this.neightbors.left.type).isCollidable)
+            ){
                 this.jump()
             }
         }
 
+        updateNextTargetPosition(){
+            if(
+                Date.now() - this.startDateNewTargetPosition > this.timeUpdateDirection ||
+                Math.abs(this.position.x - this.targetPosition) < 1){
+                const rand = Random.get(Date.now()).intInRange(-10, 10)
+                this.targetPosition = this.position.x + rand * BLOCK_SIZE
+                this.startDateNewTargetPosition = Date.now()
+            }
+        }
+
         nextMove(){
-            const diffTimeChangedirection = parseInt((Date.now() - this.startMove) % this.timeChangeDirection)
-            const diffTime = parseInt((Date.now() - this.startMove) % this.waitNexMove)
-            if (diffTime < 10) {
-                if(diffTimeChangedirection < 50){
-                    const rand = Random.get(Date.now()).intInRange(-10, 10)
-                    this.targetPosition = this.position.x + rand * BLOCK_SIZE
-                }
+            if(Date.now() - this.startDateMove > this.waitNexMove){
+                this.updateNextTargetPosition()
                 this.goToPosition()
-                this.lastPosition = this.position
+                this.startDateMove = Date.now()
             }
         }
 

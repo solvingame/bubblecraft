@@ -25,6 +25,7 @@ define(function (require) {
             this.isOnGround = false
             this.isUnderWater = false
             this.startMove = Date.now()
+            this.neightbors = {}
         }
 
         move(direction) {
@@ -56,6 +57,37 @@ define(function (require) {
             }
         }
 
+        updateCollisionObject(x, y, block){
+            const dY = this.position.y - y
+            const dX = this.position.x - x
+            if(dY >= BLOCK_SIZE){
+                this.collisionObject.bottom = block.type
+            }else if(dY <= -BLOCK_SIZE){
+                this.collisionObject.top = block.type
+            }
+            if(dX >= BLOCK_SIZE){
+                this.collisionObject.left = block.type
+            }else if(dX <= -BLOCK_SIZE){
+                this.collisionObject.right = block.type
+            }
+        }
+
+        updateNeighbors(world){
+            const {relX, relY} = this.getRelXY(this.position.x, this.position.y)
+            this.neightbors = {
+                top: world.getBlock(relX, relY + 2),
+                bottom: world.getBlock(relX, relY - 2),
+                left: world.getBlock(relX - 2, relY),
+                right: world.getBlock(relX + BLOCK_SIZE + 1, relY)
+            }
+        }
+
+        getRelXY(x, y){
+            const relY = y + BLOCK_SIZE * (CHUNK_SIZE / this.size - 1)
+            const relX = x
+            return {relX, relY}
+        }
+
         collide(world, velocity) {
             var dimensions = { x: this.size, y: this.size }
             var newPosition = { x: this.position.x, y: this.position.y }
@@ -63,8 +95,8 @@ define(function (require) {
             newPosition.y += velocity.y
             for (var x = newPosition.x; x < newPosition.x + dimensions.x; x++) {
                 for (var y = newPosition.y; y < newPosition.y + dimensions.y; y++) {
-                    const relY = y + BLOCK_SIZE * (CHUNK_SIZE / this.size - 1)
-                    var block = world.getBlock(x, relY)
+                    const {relX, relY} = this.getRelXY(x, y)
+                    var block = world.getBlock(relX, relY)
                     if (block && block.type != BlockType.Air) {
                         if (BlockProps.get(block.type).isCollidable) {
                             if (velocity.y > 0) {
@@ -85,6 +117,7 @@ define(function (require) {
         }
 
         update(world) {
+            this.updateNeighbors(world)
             this.lastVelocity = this.velocity
             this.updateBlock()
             this.addToBuffer()
