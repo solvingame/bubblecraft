@@ -27,7 +27,9 @@ define(function () {
         PlayerSwim2: "playerSwim2",
         BubbleRed: "bubbleRed",
         BubbleRedMove1: "bubbleRedMove1",
-        BubbleRedMove2: "bubbleRedMove2"
+        BubbleRedMove2: "bubbleRedMove2",
+        BubbleBlue: "bubbleBlue",
+        BubbleBlueJump: "bubbleBlueJump"
     }
 
     return Block

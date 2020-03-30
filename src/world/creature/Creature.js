@@ -8,7 +8,7 @@ define(function (require) {
     class Creature extends Entity {
         constructor(position) {
             super({
-                moveBlocks: [BlockType.BubbleRed, BlockType.BubbleRedMove1, BlockType.BubbleRedMove2, BlockType.BubbleRedMove1],
+                moveBlocks: [],
                 position: position,
                 delayMove: 100,
                 props: {
@@ -25,6 +25,16 @@ define(function (require) {
             this.startDateMove = Date.now()
             this.startDateNewTargetPosition = Date.now()
             this.blocked = false
+        }
+
+        setType(type){
+            this.type = type
+            this.setBlockTypes({
+                moveBlocks: type.moveBlocks,
+                swimBlocks: type.swimBlocks,
+                jumpBlocks: type.jumpBlocks,
+                attackBlocks: type.attackBlocks
+            })
         }
 
         goToPosition(){

@@ -3,6 +3,7 @@ define(function (require) {
     const Block = require('../world/block/Block.js')
     const BlockType = Block.BlockType
     const Mesh = require('../world/Mesh.js')
+    const Maths = require('../utils/Maths.js')
     const BlockProps = require('../world/block/BlockProps.js')
 
     class Entity {
@@ -26,6 +27,11 @@ define(function (require) {
             this.isUnderWater = false
             this.startMove = Date.now()
             this.neightbors = {}
+        }
+
+        setBlockTypes(types){
+            this.moveBlocks = types.moveBlocks
+            this.swimBlocks = types.swimBlocks
         }
 
         move(direction) {
@@ -108,9 +114,10 @@ define(function (require) {
                             if (velocity.x !== 0) {
                                 this.velocity.x = 0
                             }
-                        } else if (block.type === BlockType.Water) {
+                        } 
+                        /*else if (block.type === BlockType.Water) {
                             this.isUnderWater = true
-                        }
+                        }*/
                     }
                 }
             }
@@ -139,7 +146,7 @@ define(function (require) {
             }
 
             this.isOnGround = false
-            this.isUnderWater = false
+            this.updateUnderWater(world)
 
             this.collide(world, { x: this.velocity.x, y: 0 })
             this.collide(world, { x: 0, y: this.velocity.y })
@@ -150,6 +157,16 @@ define(function (require) {
 
             if (this.isOnGround) {
                 this.position.y = parseInt(this.position.y)
+            }
+        }
+
+        updateUnderWater(world){
+            const {relX, relY} = this.getRelXY(this.position.x, this.position.y)
+            const block = world.getBlock(relX, relY)
+            if(block && block.type === BlockType.Water){
+                this.isUnderWater = true
+            }else{
+                this.isUnderWater = false
             }
         }
 
@@ -172,6 +189,10 @@ define(function (require) {
                 this.blocks.fill(new Block(stepBlocks[this.iBlockType], { reverse: this.reverseBlock }))
                 this.isBuffered = false
             }
+        }
+
+        getDistanceByBlocks(position){
+            return Math.ceil(Math.abs(Maths.distance(this.position, position)) / BLOCK_SIZE)
         }
 
         draw(renderer) {

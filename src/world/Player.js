@@ -45,11 +45,13 @@ define(function (require) {
         mine(position, world, camera) {
             if (position) {
                 const { x, y } = camera.fromCanvasCoord(position)
-                var relY = y + BLOCK_SIZE * (CHUNK_SIZE / this.size)
-                var block = world.getBlock(x, relY)
-                if (block && block.type != BlockType.Air) {
-                    world.mine(x, relY)
-                    world.updateChunk(x, relY)
+                if(this.getDistanceByBlocks({x, y}) <= 2){
+                    var relY = y + BLOCK_SIZE * (CHUNK_SIZE / this.size)
+                    var block = world.getBlock(x, relY)
+                    if (block && block.type != BlockType.Air) {
+                        world.mine(x, relY)
+                        world.updateChunk(x, relY)
+                    }
                 }
             }
         }

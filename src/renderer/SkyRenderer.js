@@ -1,7 +1,11 @@
 define(function () {
 
     class SkyRenderer {
-        render(camera, appTime) {
+        constructor(){
+            //this.image = new Image()
+            //this.image.src = '/res/parallax/mountain.jpg'
+        }
+        drawSky(appTime){
             var skyGradient = contextSky.createLinearGradient(0, 0, 0, WINDOW_HEIGHT)
             appTime *= 2
 
@@ -23,6 +27,17 @@ define(function () {
 
             contextSky.fillStyle = skyGradient
             contextSky.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT)
+        }
+        drawParallax(){
+            if(!this.startCamera){
+                this.startCamera = camera.position
+            }
+            const x = (this.startCamera.x - camera.position.x) / 10
+            contextSky.drawImage(this.image, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, x, 0, WINDOW_WIDTH, WINDOW_HEIGHT)
+            contextSky.drawImage(this.image, 0, 0, x, WINDOW_HEIGHT, 500, 0, x, WINDOW_HEIGHT)
+        }
+        render(camera, appTime) {
+            this.drawSky(appTime)
         }
     }
 

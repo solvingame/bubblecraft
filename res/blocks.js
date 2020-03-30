@@ -96,6 +96,21 @@ return {
         "isCollidable": 0,
         "mineLevelStep": 0
     },
+    "bubbleRedFloat": {
+        "tex": [3, 4],
+        "isCollidable": 0,
+        "mineLevelStep": 0
+    },
+    "bubbleBlue": {
+        "tex": [4, 1],
+        "isCollidable": 0,
+        "mineLevelStep": 0
+    },
+    "bubbleBlueJump": {
+        "tex": [4, 2],
+        "isCollidable": 0,
+        "mineLevelStep": 0
+    },
 }
 
 })

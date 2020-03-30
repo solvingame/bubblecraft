@@ -37,13 +37,7 @@ define(function (require) {
                 var pixel = pixels[i / 4]
                 var rgb = null
                 if (pixel) {
-                    rgb = pixel.rgb
-                    if (pixel.mineLevel > 0) {
-                        const rand = Math.random()
-                        if (rand <= pixel.mineLevel) {
-                            rgb = [0, 0, 0, 0]
-                        }
-                    }
+                    rgb = this.applyMine(pixel)
                 } else {
                     rgb = [255, 255, 255, 0]
                 }
@@ -54,6 +48,17 @@ define(function (require) {
                     this.data[i + 3] = rgb[3]
                 }
             }
+        }
+
+        applyMine(pixel){
+            var rgb = pixel.rgb
+            if (pixel.mineLevel > 0) {
+                const rand = Math.random()
+                if (rand <= pixel.mineLevel) {
+                    rgb = [0, 0, 0, 0]
+                }
+            }
+            return rgb
         }
     }
 
